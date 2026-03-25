@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy dependency files
-COPY pyproject.toml poetry.lock* ./
+COPY pyproject.toml poetry.lock ./
 
 # Install Poetry and export requirements
 RUN pip install --no-cache-dir poetry==2.0.1 poetry-plugin-export && \
@@ -38,11 +38,18 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     APP_PORT=8000
 
 # Copy project files
-COPY pyproject.toml README.md ./
+COPY pyproject.toml README.md poetry.lock ./
 COPY app/ ./app/
 COPY migrate.py .
+COPY entrypoint.sh .
+
+# Make entrypoint executable
+RUN chmod +x entrypoint.sh
 
 EXPOSE 8000
+
+# Use entrypoint to run migrations
+ENTRYPOINT ["./entrypoint.sh"]
 
 # Run the application
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

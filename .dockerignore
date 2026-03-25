@@ -8,5 +8,3 @@ env/
 .git/
 .gitignore
 .python-version
-poetry.lock
-README.md
