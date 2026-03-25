@@ -1,0 +1,13 @@
+services:
+  app:
+    build: .
+    container_name: sian-redis-om-service
+    ports:
+      - "${APP_PORT:-8000}:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./app:/app/app
+      - ./migrate.py:/app/migrate.py
+    # Change to app.main:app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
