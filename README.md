@@ -44,6 +44,9 @@ GLOBAL_KEY_PREFIX=app_project_name
    # Configure poetry to create virtualenv in project directory (.venv)
    poetry config virtualenvs.in-project true --local
    
+   # Use specific python version (optional but recommended)
+   poetry env use python3.12
+   
    # Install dependencies
    poetry install
    
